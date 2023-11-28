@@ -62,7 +62,6 @@ public class AccountTranscationService implements AccountTranscatioinServiceInte
 		}
 
 		entity.setEffectiveDate(dateString);
-
 		entity.setCurrencyCode("1");
 		entity.setCurrencyRate(0.00f);
 		entity.setPrevBalance(0.00);
@@ -83,13 +82,13 @@ public class AccountTranscationService implements AccountTranscatioinServiceInte
 		try {
 		// InfoLogService.log("Save Transcation"+entity);
 		
-	    if (entity.getAccNumber() == null || entity.getAccNumber().isEmpty()) {
-			res.setStatus(500);
-		    res.setDescription("Fail");
-		}else{
-            accountTranscationRepository.save(entity);
+	    if (entity.getAccNumber() != null || !entity.getAccNumber().isEmpty()) {
+			accountTranscationRepository.save(entity);
 			res.setStatus(200);
 		    res.setDescription("Success");
+		}else{
+            res.setStatus(500);
+		    res.setDescription("Fail");
 		}
 		
 		// InfoLogService.log("After Save Transcation"+entity);
