@@ -83,8 +83,12 @@ public class AccountTranscationService implements AccountTranscatioinServiceInte
 		// InfoLogService.log("Save Transcation"+entity);
 		
 	    if (entity.getAccNumber() != null || !entity.getAccNumber().isEmpty()) {
+
 			accountTranscationRepository.saveTransaction(entity);
 			//accountTranscationRepository.save(entity);
+
+			accountTranscationRepository.save(entity);
+
 			res.setStatus(200);
 		    res.setDescription("Success");
 		}else{
