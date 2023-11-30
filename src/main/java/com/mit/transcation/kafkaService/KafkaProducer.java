@@ -14,9 +14,9 @@ public class KafkaProducer {
 		this.kafkaTemplate = kafkaTemplate;
 	}
 
-	public void sendAccount(String status) {
-		kafkaTemplate.send("success_topic", status);
+	// public void sendAccount(String status) {
+	// 	kafkaTemplate.send("success_topic", status);
 
-	}
+	// }
 
 }

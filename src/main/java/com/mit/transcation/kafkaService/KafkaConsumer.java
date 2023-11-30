@@ -23,20 +23,20 @@ public class KafkaConsumer {
 		this.kafkaTemplate = kafkaTemplate;
 	}
 	
-	@KafkaListener(topics = "transcation-topic", groupId = "transcation")
-	public void consumeOrderEvent(String message) {
+	// @KafkaListener(topics = "transcation-topic", groupId = "transcation")
+	// public void consumeOrderEvent(String message) {
 
-		try {
-			InfoLogService.log("After Kafka");
-			ObjectMapper objectMapper = new ObjectMapper();
-			AccountDTO requestDTO = objectMapper.readValue(message, AccountDTO.class);
-			accountTranscatioinServiceInterface.saveAccountTranscation(requestDTO);
+	// 	try {
+	// 		InfoLogService.log("After Kafka");
+	// 		ObjectMapper objectMapper = new ObjectMapper();
+	// 		AccountDTO requestDTO = objectMapper.readValue(message, AccountDTO.class);
+	// 		accountTranscatioinServiceInterface.saveAccountTranscation(requestDTO);
 		
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println(e);
-		}
+	// 	} catch (Exception e) {
+	// 		e.printStackTrace();
+	// 		System.out.println(e);
+	// 	}
 
-	}
+	// }
 
 }
