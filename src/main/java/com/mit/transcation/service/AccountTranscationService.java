@@ -87,7 +87,7 @@ public class AccountTranscationService implements AccountTranscatioinServiceInte
 			accountTranscationRepository.saveTransaction(entity);
 			//accountTranscationRepository.save(entity);
 
-			accountTranscationRepository.save(entity);
+//			accountTranscationRepository.save(entity);
 
 			res.setStatus(200);
 		    res.setDescription("Success");
