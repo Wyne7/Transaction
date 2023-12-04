@@ -1,25 +1,18 @@
 package com.mit.transcation.service;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
+import java.math.BigInteger;
+import java.nio.ByteBuffer;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
-import com.mit.transcation.dto.AccountDTO;
-import com.mit.transcation.dto.AccountTranscationDTO;
-import com.mit.transcation.dto.RequestDTO;
 import com.mit.transcation.dto.ResponseDTO;
-import com.mit.transcation.kafkaService.KafkaProducer;
-import com.mit.transcation.model.AccountTransactionEntity;
+import com.mit.transcation.dto.TransactionRequestDTO;
 import com.mit.transcation.repository.AccountTranscationRepository;
 import com.mit.transcation.serviceInterface.AccountTranscatioinServiceInterface;
-import com.mit.transcation.util.InfoLogService;
 
-import jakarta.transaction.Transaction;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -28,85 +21,43 @@ public class AccountTranscationService implements AccountTranscatioinServiceInte
 	@Autowired
 	private AccountTranscationRepository accountTranscationRepository;
 
-	@Autowired
-	private KafkaProducer kafkaProducer;
-
+	public static long generateSyskey() {
+        final UUID uid = UUID.randomUUID();
+        final ByteBuffer buffer = ByteBuffer.wrap(new byte[16]);
+        buffer.putLong(uid.getLeastSignificantBits());
+        buffer.putLong(uid.getMostSignificantBits());
+        final BigInteger bi = new BigInteger(buffer.array());
+        return Math.abs(bi.longValue());
+}
 	@Override
 	@Transactional
-	public ResponseDTO saveAccountTranscation(AccountDTO requestDTO) {
-		Date today = new Date();
-		LocalDateTime now = LocalDateTime.now();
-		Integer status = 0;
+	public Optional<ResponseDTO> saveAccountTranscation(TransactionRequestDTO requestDTO) {
+	
 		ResponseDTO res=new ResponseDTO();
-		// Create a SimpleDateFormat object to specify the desired date format
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-
-		// Use the format method to convert the Date object to a string
-		String dateString = dateFormat.format(today);
-		String timeString = now.format(timeFormatter);
-
-		AccountTransactionEntity entity = new AccountTransactionEntity();
-		entity.setAccNumber(requestDTO.getAccNumber());
-		entity.setAmount(requestDTO.getAmount());
-		entity.setBranchCode("001");
-		entity.setChequeNo("Y");
-		entity.setContraDate(dateString);
-		if (status != requestDTO.getStatus()) {
-			entity.setTransType(820);
-			entity.setDescription("Deposit transcation" + requestDTO.getAccNumber());
-
-		} else {
-			entity.setTransType(320);
-			entity.setDescription("Credit transcation" + requestDTO.getAccNumber());
-		}
-
-		entity.setEffectiveDate(dateString);
-		entity.setCurrencyCode("1");
-		entity.setCurrencyRate(0.00f);
-		entity.setPrevBalance(0.00);
-		entity.setPrevUpDate(dateString);
-		entity.setRemark("Test");
-		entity.setStatus(0);
-		entity.setAccRef("Test");
-		entity.setSerialNo(0);
-		entity.setSubRef("Test");
-		entity.setSupervisorId("001");
-		entity.setSystemCode(0);
-		entity.setTellerId("001");
-		entity.setTransDate(dateString);
-		entity.setTransNo(100);
-		entity.setTransRef(10);
-		entity.setTransTime(timeString);
-		entity.setWorkStation("Yangon");
 		try {
-		// InfoLogService.log("Save Transcation"+entity);
-		
-	    if (entity.getAccNumber() != null || !entity.getAccNumber().isEmpty()) {
-
-			accountTranscationRepository.saveTransaction(entity);
-			//accountTranscationRepository.save(entity);
-
-//			accountTranscationRepository.save(entity);
-
+			double balance=accountTranscationRepository.getBalanceByAccNumber(requestDTO.getFromaccnumber());
+			
+			if(balance<requestDTO.getAmount())
+			{
+				res.setDescription("Not Enough Amount");
+				res.setStatus(322);
+				return Optional.of(res);
+			}
+			accountTranscationRepository.updateFromAccNumber(requestDTO.getFromaccnumber(),requestDTO.getAmount());
+			accountTranscationRepository.updateToAccNumber(requestDTO.getToaccnumber(),requestDTO.getAmount());
+			requestDTO.setSyskey(generateSyskey());
+			accountTranscationRepository.insertTransaction(requestDTO);
+			res.setDescription("Success Transcation");
 			res.setStatus(200);
-		    res.setDescription("Success");
-		}else{
-            res.setStatus(500);
-		    res.setDescription("Fail");
+			return Optional.of(res);
+			
+		} catch (Exception e) {
+			   e.printStackTrace();
+			    res.setDescription("Fail Transaction: " + e.getMessage());
+			res.setStatus(500);
+			return Optional.of(res);
 		}
-		
-		// InfoLogService.log("After Save Transcation"+entity);
-		// String statusTranscation = "Success";
-		// kafkaProducer.sendAccount(statusTranscation);
-		}
-		catch (Exception e) {
-			//InfoLogService.log("Error Save"+e);
-		}
-
-		
-
-		return res;
+	
 	}
 
 }
