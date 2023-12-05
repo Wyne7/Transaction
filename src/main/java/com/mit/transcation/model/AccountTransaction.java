@@ -3,6 +3,7 @@ package com.mit.transcation.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import jakarta.persistence.Column;
@@ -116,9 +117,9 @@ public class AccountTransaction implements Serializable {
 	@Column
 	private String subref = "";
 
-	@Column
-	private Date createdate;
-	@Column
-	private Date updatedate;
-	// Constructors, getters, and setters
+	  @Column(name = "updatedAt")
+	    private LocalDateTime updatedAt;
+
+	    @Column(name = "createdAt")
+	    private LocalDateTime createdAt;
 }

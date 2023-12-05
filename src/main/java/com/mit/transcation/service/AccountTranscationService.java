@@ -35,7 +35,7 @@ public class AccountTranscationService implements AccountTranscatioinServiceInte
 	
 		ResponseDTO res=new ResponseDTO();
 		try {
-			double balance=accountTranscationRepository.getBalanceByAccNumber(requestDTO.getFromaccnumber());
+			Double balance=accountTranscationRepository.getBalanceByAccNumber(requestDTO.getFromaccnumber());
 			
 			if(balance<requestDTO.getAmount())
 			{
