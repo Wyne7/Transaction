@@ -23,14 +23,12 @@ public interface AccountTranscationRepository extends JpaRepository<AccountTrans
     @Query(value = "UPDATE accountbalances SET currentbalance = currentbalance + :amount, lastupdate = now(), lasttransdate = now() "
             + "WHERE accnumber = :toAccNumber", nativeQuery = true)
     void updateToAccNumber( @Param("toAccNumber") String accNumber,@Param("amount") double amount);
-
-
 	
 	@Modifying
 	@Query(value = "INSERT INTO accounttransactions (syskey, transref, branchcode, tellerid, supervisorid, "
 			+ "transtime, transdate, effectivedate, dr_accnumber, cr_accnumber,"
 			+ " dr_amount, cr_amount, dr_transtype, cr_transtype, dr_description,"
-			+ " cr_description,  accref, subref, updatedAt,createdAt)  " +
+			+ " cr_description,  accref, subref,\"updatedAt\",\"createdAt\")  " +
 	        "VALUES (:#{#entity.syskey},:#{#entity.syskey}, :#{#entity.branchcode}, 'Off001', '010',"
 	        + "  now(),now(), now(),  :#{#entity.fromaccnumber}, :#{#entity.toaccnumber},"
 	        + " :#{#entity.amount}, :#{#entity.amount}, 705, 205, 'Transfer Debit', "
