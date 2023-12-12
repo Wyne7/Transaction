@@ -18,7 +18,7 @@ import com.mit.transcation.serviceInterface.AccountTranscatioinServiceInterface;
 import com.mit.transcation.serviceInterface.FileReadServiceInterface;
 
 @RestController
-
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api/v1")
 public class TransactionController {
 
