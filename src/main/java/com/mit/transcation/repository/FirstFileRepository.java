@@ -13,6 +13,6 @@ public interface  FirstFileRepository  extends JpaRepository<FirstFile, Long>{
 	@Modifying
 	@Query(value="INSERT INTO firstfile ( syskey,accnumber, panid) "
 			+ "VALUES ( :#{#entity.syskey},:#{#entity.accNumber}, :#{#entity.panId});",nativeQuery=true)
-	void InsertFirstFile(@Param("entity") FirstFile entity);
+	void insertFirstFile(@Param("entity") FirstFile entity);
 
 }

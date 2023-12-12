@@ -1,9 +1,9 @@
 package com.mit.transcation.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,7 +33,7 @@ public class TransactionController {
     }
     
     @PostMapping("/upload")
-    public Optional<ResponseDTO> handleFileUpload(@RequestParam("file") MultipartFile file) {
+    public Optional<ResponseDTO> handleFileUpload(@RequestParam("file") List<MultipartFile> file) {
             
         return fileRead.fileRead(file);
     }

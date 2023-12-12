@@ -3,9 +3,8 @@ package com.mit.transcation;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.mit.transcation.service.AccountTranscationService;
-
 @SpringBootApplication
+
 public class TranscationApplication {
 
 	public static void main(String[] args) {
