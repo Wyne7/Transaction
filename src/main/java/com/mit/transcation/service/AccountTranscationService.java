@@ -2,15 +2,18 @@ package com.mit.transcation.service;
 
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mit.transcation.dto.CompareDTO;
 import com.mit.transcation.dto.ResponseDTO;
 import com.mit.transcation.dto.TransactionRequestDTO;
 import com.mit.transcation.repository.AccountTranscationRepository;
+import com.mit.transcation.repository.FirstFileRepository;
 import com.mit.transcation.serviceInterface.AccountTranscatioinServiceInterface;
 
 import jakarta.transaction.Transactional;
@@ -20,6 +23,8 @@ public class AccountTranscationService implements AccountTranscatioinServiceInte
 
 	@Autowired
 	private AccountTranscationRepository accountTranscationRepository;
+	@Autowired
+	private FirstFileRepository firstFileRepository;
 
 	public static long generateSyskey() {
         final UUID uid = UUID.randomUUID();
@@ -59,5 +64,10 @@ public class AccountTranscationService implements AccountTranscatioinServiceInte
 		}
 	
 	}
+	
+	@Override
+	  public List<CompareDTO> getTxnIdAndAccNumberJoin() {
+	        return firstFileRepository.getTxnIdAndAccNumberJoin();
+	    }
 
 }

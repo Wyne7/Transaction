@@ -73,15 +73,15 @@ public class FileRead implements FileReadServiceInterface {
 
 				if (fields.length >= 2) {
 					fFile.setSyskey(AccountTranscationService.generateSyskey());
-					fFile.setAccNumber(fields[0]);
-					fFile.setPanId(fields[1]);
+					fFile.setAccNumber(fields[1]);
+					fFile.setPanId(fields[0]);
 
 					firstFile.insertFirstFile(fFile);
 					// TODO: Add logic to process the fields or save them to the database
 				} else if (fields.length >= 3) {
 					fFile.setSyskey(AccountTranscationService.generateSyskey());
-					fFile.setAccNumber(fields[1]);
-					fFile.setPanId(fields[2]);
+					fFile.setAccNumber(fields[2]);
+					fFile.setPanId(fields[1]);
 
 					firstFile.insertFirstFile(fFile);
 				} else {
@@ -107,8 +107,12 @@ public class FileRead implements FileReadServiceInterface {
 
 			// Assuming you're working with the first sheet
 			Sheet sheet = workbook.getSheetAt(0);
+			 boolean isFirstRow = true;
+	            for (int rowIndex = 2; rowIndex <= sheet.getLastRowNum(); rowIndex++) {
+	                Row row = sheet.getRow(rowIndex);
 
-			for (Row row : sheet) {
+
+
 				Excel ec = new Excel();
 				// Get data from columns B and D (index 1 and 3)
 				Cell cellA = row.getCell(0);
