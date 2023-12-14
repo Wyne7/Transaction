@@ -71,18 +71,17 @@ public class FileRead implements FileReadServiceInterface {
 				FirstFile fFile = new FirstFile();
 				String[] fields = line.split("\\s+");
 
-				if (fields.length >= 2) {
+				if (fields.length >= 3) {
+					fFile.setSyskey(AccountTranscationService.generateSyskey());
+					fFile.setAccNumber(fields[2]);
+					fFile.setPanId(fields[0]);
+					
+					firstFile.insertFirstFile(fFile);
+					// TODO: Add logic to process the fields or save them to the database
+				} else if (fields.length == 2) {
 					fFile.setSyskey(AccountTranscationService.generateSyskey());
 					fFile.setAccNumber(fields[1]);
 					fFile.setPanId(fields[0]);
-
-					firstFile.insertFirstFile(fFile);
-					// TODO: Add logic to process the fields or save them to the database
-				} else if (fields.length >= 3) {
-					fFile.setSyskey(AccountTranscationService.generateSyskey());
-					fFile.setAccNumber(fields[2]);
-					fFile.setPanId(fields[1]);
-
 					firstFile.insertFirstFile(fFile);
 				} else {
 					// Handle the case where the line doesn't have enough fields
@@ -125,8 +124,8 @@ public class FileRead implements FileReadServiceInterface {
 
 					ec.setSyskey(AccountTranscationService.generateSyskey());
 					// TODO: Process or save data as needed
-					ec.settId(dataB);
-					ec.setTxnId(dataD);
+					ec.settId(dataD);
+					ec.setTxnId(dataB);
 					excel.insertExcel(ec);
 				}
 			}
