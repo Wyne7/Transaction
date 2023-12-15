@@ -26,28 +26,25 @@ public class TransactionController {
 
     @Autowired
     private AccountTranscatioinServiceInterface serviceInterface;
-    
+
     @Autowired
-   private FileReadServiceInterface fileRead;
+    private FileReadServiceInterface fileRead;
 
     @PostMapping("/saveTransaction")
-    public  Optional<ResponseDTO>saveAccountTranscation(@RequestBody TransactionRequestDTO accountDTO){
-         
+    public Optional<ResponseDTO> saveAccountTranscation(@RequestBody TransactionRequestDTO accountDTO) {
+
         return serviceInterface.saveAccountTranscation(accountDTO);
     }
-    
+
     @PostMapping("/upload")
     public Optional<ResponseDTO> handleFileUpload(@RequestParam("file") List<MultipartFile> file) {
-            
         return fileRead.fileRead(file);
     }
-    
-    
-    @GetMapping("/upload")
+
+    @GetMapping("/compare")
     public List<CompareDTO> getHandleFileUpload() {
-            
+
         return serviceInterface.getTxnIdAndAccNumberJoin();
     }
-    
-    
+
 }

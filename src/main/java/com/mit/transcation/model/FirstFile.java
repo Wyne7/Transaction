@@ -1,15 +1,19 @@
 package com.mit.transcation.model;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
-@Table(name="firstfile")
-public class FirstFile implements Serializable{
+@Data
+@Table(name = "firstfile")
+public class FirstFile implements Serializable {
 
 	/**
 	 * 
@@ -17,48 +21,19 @@ public class FirstFile implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	 @Column(name = "syskey")
-    private Long syskey;
-	
-	 @Column(name = "panid",nullable = false)
-	    private String panId;
+	@Column(name = "syskey")
+	private Long syskey;
 
-	 
-	 @Column(name="accnumber",nullable = false)
-	    private String accNumber;
+	@Column(name = "panid", nullable = false)
+	private String panId;
 
+	@Column(name = "accnumber", nullable = false)
+	private String accNumber;
 
-	public Long getSyskey() {
-		return syskey;
-	}
+	@Column(name = "todaydate", nullable = false)
+	private LocalDate todaydate;
 
+	@Column(name = "filename", nullable = false)
+	private String filename;
 
-	public void setSyskey(Long syskey) {
-		this.syskey = syskey;
-	}
-
-
-	public String getPanId() {
-		return panId;
-	}
-
-
-	public void setPanId(String panId) {
-		this.panId = panId;
-	}
-
-
-	public String getAccNumber() {
-		return accNumber;
-	}
-
-
-	public void setAccNumber(String accNumber) {
-		this.accNumber = accNumber;
-	}
-	 
-	 
-
-
-	
 }
