@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,10 +42,17 @@ public class TransactionController {
         return fileRead.fileRead(file);
     }
 
-    @GetMapping("/compare")
+    @GetMapping("/upload")
     public List<CompareDTO> getHandleFileUpload() {
 
         return serviceInterface.getTxnIdAndAccNumberJoin();
+    }
+    @GetMapping("/paginated")
+    public Page<CompareDTO> getPaginatedData(
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size) {
+
+        return serviceInterface.getPaginatedResults(page, size);
     }
 
 }

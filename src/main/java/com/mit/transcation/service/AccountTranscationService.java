@@ -5,10 +5,12 @@ import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import org.springframework.data.domain.Pageable;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.mit.transcation.dto.CompareDTO;
 import com.mit.transcation.dto.ResponseDTO;
 import com.mit.transcation.dto.TransactionRequestDTO;
@@ -65,6 +67,12 @@ public class AccountTranscationService implements AccountTranscatioinServiceInte
 	
 	}
 	
+	@Override
+	  public Page<CompareDTO> getPaginatedResults(int page, int size) {
+	        Pageable pageable = PageRequest.of(page, size);
+	        return firstFileRepository.getTxnIdAndAccNumberJoin(pageable);
+	    }
+	  
 	@Override
 	  public List<CompareDTO> getTxnIdAndAccNumberJoin() {
 	        return firstFileRepository.getTxnIdAndAccNumberJoin();
