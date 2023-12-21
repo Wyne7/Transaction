@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.mit.transcation.dto.CompareDTO;
+import com.mit.transcation.dto.RequestDTO;
 import com.mit.transcation.dto.ResponseDTO;
 import com.mit.transcation.dto.TransactionRequestDTO;
 import com.mit.transcation.serviceInterface.AccountTranscatioinServiceInterface;
@@ -22,7 +23,7 @@ import com.mit.transcation.serviceInterface.FileReadServiceInterface;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/api/v1")
+@RequestMapping("/Transcation/add-ons")
 public class TransactionController {
 
     @Autowired
@@ -37,7 +38,7 @@ public class TransactionController {
         return serviceInterface.saveAccountTranscation(accountDTO);
     }
 
-    @PostMapping("/upload")
+    @PostMapping("/uploadFiles")
     public Optional<ResponseDTO> handleFileUpload(@RequestParam("file") List<MultipartFile> file) {
         return fileRead.fileRead(file);
     }
@@ -47,12 +48,17 @@ public class TransactionController {
 
         return serviceInterface.getTxnIdAndAccNumberJoin();
     }
-    @GetMapping("/paginated")
-    public Page<CompareDTO> getPaginatedData(
-            @RequestParam(name = "page", defaultValue = "1") int page,
-            @RequestParam(name = "size", defaultValue = "10") int size) {
+//    @GetMapping("/paginated")
+//    public Page<CompareDTO> getPaginatedData(
+//            @RequestParam(name = "page", defaultValue = "1") int page,
+//            @RequestParam(name = "size", defaultValue = "10") int size) {
+//
+//        return serviceInterface.getPaginatedResults(page, size);
+//    }
 
-        return serviceInterface.getPaginatedResults(page, size);
-    }
-
+  @PostMapping("/paginated")
+ public Page<CompareDTO> getPaginatedData(
+		 @RequestBody RequestDTO  dto) {
+      return serviceInterface.getPaginatedResults(dto);
+  }
 }

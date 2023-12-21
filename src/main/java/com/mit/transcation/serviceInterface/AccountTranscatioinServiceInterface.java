@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 
 import com.mit.transcation.dto.CompareDTO;
+import com.mit.transcation.dto.RequestDTO;
 import com.mit.transcation.dto.ResponseDTO;
 import com.mit.transcation.dto.TransactionRequestDTO;
 
@@ -15,7 +16,7 @@ public interface AccountTranscatioinServiceInterface {
 
 	public List<CompareDTO> getTxnIdAndAccNumberJoin();
 
-	Page<CompareDTO> getPaginatedResults(int page, int size);
+	Page<CompareDTO> getPaginatedResults(RequestDTO dto);
 	
 	
 

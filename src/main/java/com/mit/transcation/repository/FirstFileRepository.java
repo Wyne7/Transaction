@@ -28,6 +28,8 @@ public interface FirstFileRepository extends JpaRepository<FirstFile, Long> {
     @Query("DELETE FROM FirstFile ff WHERE ff.todaydate = CURRENT_DATE AND ff.filename = :filename")
     void deleteFirstFileByDate(@Param("filename") String filename);
 
-    @Query("SELECT new com.mit.transcation.dto.CompareDTO(ff.syskey, ff.panId, ff.accNumber, e.syskey, e.txnId, e.tId) FROM FirstFile ff FULL OUTER JOIN Excel e ON ff.accNumber = e.txnId")
+    @Query("SELECT new com.mit.transcation.dto.CompareDTO(ff.syskey, ff.panId, ff.accNumber, e.syskey, e.txnId, e.tId) FROM FirstFile ff FULL OUTER JOIN Excel e ON ff.accNumber = e.txnId WHERE "
+            + " CAST(ff.todaydate AS date) = CAST(GETDATE() AS date)")
     Page<CompareDTO> getTxnIdAndAccNumberJoin(Pageable pageable);
+
 }

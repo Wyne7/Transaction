@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.mit.transcation.dto.CompareDTO;
+import com.mit.transcation.dto.RequestDTO;
 import com.mit.transcation.dto.ResponseDTO;
 import com.mit.transcation.dto.TransactionRequestDTO;
 import com.mit.transcation.repository.AccountTranscationRepository;
@@ -68,8 +69,8 @@ public class AccountTranscationService implements AccountTranscatioinServiceInte
 	}
 	
 	@Override
-	  public Page<CompareDTO> getPaginatedResults(int page, int size) {
-	        Pageable pageable = PageRequest.of(page, size);
+	  public Page<CompareDTO> getPaginatedResults(RequestDTO dto) {
+	        Pageable pageable = PageRequest.of(dto.getPage(), dto.getSize());
 	        return firstFileRepository.getTxnIdAndAccNumberJoin(pageable);
 	    }
 	  
